@@ -19,23 +19,24 @@ class App extends Component {
 
   addContact = (name, number) => {
     const { contacts } = this.state;
-    const isName = contacts.map((contact) => {
-      contact.name.toLowerCase().includes(contact.name.toLowerCase());
-    });
+
+    const isName = contacts
+      .map((contact) => contact.name.toLowerCase())
+      .includes(name.toLowerCase());
 
     if (isName) {
-      return alert(`${name} is already in contacts.`);
+      alert(`${name} is already in contacts.`);
+    } else {
+      const newContact = {
+        id: shortid.generate(),
+        name,
+        number,
+      };
+
+      this.setState(({ contacts }) => ({
+        contacts: [newContact, ...contacts],
+      }));
     }
-
-    const contact = {
-      id: shortid.generate(),
-      name,
-      number,
-    };
-
-    this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
   };
 
   deleteContact = (contactId) => {
